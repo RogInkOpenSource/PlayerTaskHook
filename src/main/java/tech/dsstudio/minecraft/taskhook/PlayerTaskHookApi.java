@@ -120,6 +120,7 @@ public class PlayerTaskHookApi extends JavaPlugin implements Listener {
 				instance.suspendedTasks.put(descriptor.playerUuid, new ConcurrentHashSet<>());
 			}
 			instance.suspendedTasks.get(descriptor.playerUuid).add(descriptor);
+			descriptor.isSuspended = true;
 		} catch (NullPointerException ex) {
 			instance.getLogger().warning("Trying to suspend a task that was not active for this player");
 			ex.printStackTrace();
@@ -131,6 +132,7 @@ public class PlayerTaskHookApi extends JavaPlugin implements Listener {
 			instance.suspendedTasks.computeIfAbsent(descriptor.playerUuid, k -> new ConcurrentHashSet<>()).remove(descriptor);
 			descriptor.assignedTime = currentTick.get() - descriptor.remainingWaitTime;
 			instance.activeTasks.computeIfAbsent(descriptor.playerUuid, k -> new ConcurrentHashSet<>()).add(descriptor);
+			descriptor.isSuspended = false;
 		} catch (NullPointerException ex) {
 			instance.getLogger().warning("Trying to resume a task that was not suspended for this player");
 			ex.printStackTrace();
