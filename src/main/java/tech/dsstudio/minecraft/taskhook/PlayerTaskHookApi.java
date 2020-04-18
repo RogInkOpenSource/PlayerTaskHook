@@ -130,7 +130,7 @@ public class PlayerTaskHookApi extends JavaPlugin implements Listener {
 	public static void resume(TaskDescriptor descriptor) {
 		try {
 			instance.suspendedTasks.computeIfAbsent(descriptor.playerUuid, k -> new ConcurrentHashSet<>()).remove(descriptor);
-			descriptor.assignedTime = currentTick.get() - descriptor.remainingWaitTime;
+			descriptor.executionTime = currentTick.get() - descriptor.remainingWaitTime;
 			instance.activeTasks.computeIfAbsent(descriptor.playerUuid, k -> new ConcurrentHashSet<>()).add(descriptor);
 			descriptor.isSuspended = false;
 		} catch (NullPointerException ex) {
